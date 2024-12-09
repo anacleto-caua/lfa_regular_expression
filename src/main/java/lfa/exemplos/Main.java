@@ -89,13 +89,38 @@ public class Main {
         exp = "if" + BRANCOS + ABRE_PARENTESIS + BRANCOS + EXPR + BRANCOS  + "((" + COMPARADOR + BRANCOS + EXPR + BRANCOS + ")?)*" + FECHA_PARENTESIS;
         ExpressaoRegular condicional = new ExpressaoRegular(exp);
         condicional.confere("if(ano < 1990)");
+        condicional.confere("if(data.ano.toInt() < periodo[x])");
         condicional.confere("if(3*a != 4+t)");
 
         exp = EXPR;
-        ExpressaoRegular expressoes = new ExpressaoRegular(exp);
-        expressoes.confere("3+media/3");
-        expressoes.confere("-4+beta*media[1].x");
-        expressoes.confere("soma(a,b)/4*vetor[5].idade");
-        expressoes.confere("232+2/3232.232-var[32]/prova[pro][xesq].pro()[232].qes().regex.gors(a, 2330, 23.4)");
+        ExpressaoRegular expressoesAritmeticas = new ExpressaoRegular(exp);
+        expressoesAritmeticas.confere("3+media/3");
+        expressoesAritmeticas.confere("-4+beta*media[1].x");
+        expressoesAritmeticas.confere("soma(a,b)/4*vetor[5].idade");
+        expressoesAritmeticas.confere("232+2/3232.232-var[32]/prova[pro][xesq].pro()[232].qes().regex.gors(a, 2330, 23.4)");
+
+        // Número positivo e ímpar, em binário
+        exp = "0" + "(0|1)*" + "1";
+        ExpressaoRegular binPositivoImpar = new ExpressaoRegular(exp);
+        binPositivoImpar.confere("0001010101010101");
+        binPositivoImpar.confere("011001101101");
+        binPositivoImpar.confere("01");
+
+        // Número negativo e par, em binário
+        exp = "1" + "(0|1)*" + "0";
+        ExpressaoRegular binNegativoPar = new ExpressaoRegular(exp);
+        binNegativoPar.confere("10110110110");
+        binNegativoPar.confere("101001110");
+        binNegativoPar.confere("111010100110");
+
+        // Números maiores ou igual a oito, em binário
+        exp = "0" + "((0)?)*" + "(1)" + "(0|1){3,}$";
+        ExpressaoRegular difTres = new ExpressaoRegular(exp);
+        difTres.confere("0001010101010101");
+        difTres.confere("011110");
+        difTres.confere("01000");
+
+
+
     }
 }
